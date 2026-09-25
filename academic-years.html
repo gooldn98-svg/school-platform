@@ -1,92 +1,64 @@
-// js/academic-years.js
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>إدارة السنوات الدراسية - منصة المدرسة</title>
+    <link rel="stylesheet" href="../css/style.css">
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+</head>
+<body>
+    <header>
+        <h1>إدارة السنوات الدراسية</h1>
+        <nav>
+            <a href="../index.html">الرئيسية</a>
+        </nav>
+    </header>
 
-document.addEventListener('DOMContentLoaded', () => {
-    const tableBody = document.querySelector('#academic-years-table tbody');
-    const addForm = document.getElementById('add-academic-year-form');
+    <main>
+        <section class="form-section">
+            <h2>إضافة سنة دراسية جديدة</h2>
+            <form id="add-academic-year-form">
+                <div class="form-group">
+                    <label for="year-name">اسم السنة الدراسية (مثل: 2026 / 2027):</label>
+                    <input type="text" id="year-name" required placeholder="أدخل اسم السنة">
+                </div>
+                <div class="form-group">
+                    <label for="start-date">تاريخ البداية:</label>
+                    <input type="date" id="start-date" required>
+                </div>
+                <div class="form-group">
+                    <label for="end-date">تاريخ النهاية:</label>
+                    <input type="date" id="end-date" required>
+                </div>
+                <button type="submit">إضافة السنة</button>
+            </form>
+        </section>
 
-    // 1. دالة لجلب السنوات الدراسية وعرضها في الجدول
-    async function fetchAcademicYears() {
-        // رسالة تحميل مؤقتة
-        tableBody.innerHTML = '<tr><td colspan="5">جاري جلب البيانات من قاعدة البيانات...</td></tr>';
-        
-        // الاتصال بـ Supabase وجلب البيانات
-        const { data, error } = await supabaseClient
-            .from('academic_years')
-            .select('*')
-            .order('created_at', { ascending: false });
+        <hr>
 
-        if (error) {
-            console.error('Error fetching data:', error);
-            tableBody.innerHTML = '<tr><td colspan="5" style="color:red;">حدث خطأ أثناء جلب البيانات. تأكد من الاتصال.</td></tr>';
-            return;
-        }
+        <section class="table-section">
+            <h2>قائمة السنوات الدراسية</h2>
+            <table id="academic-years-table">
+                <thead>
+                    <tr>
+                        <th>الاسم</th>
+                        <th>تاريخ البداية</th>
+                        <th>تاريخ النهاية</th>
+                        <th>الحالة</th>
+                        <th>الإجراءات</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td colspan="5">جاري التحميل...</td>
+                    </tr>
+                </tbody>
+            </table>
+        </section>
+    </main>
 
-        // تفريغ الجدول للبدء بإضافة البيانات
-        tableBody.innerHTML = ''; 
-
-        if (data.length === 0) {
-            tableBody.innerHTML = '<tr><td colspan="5">لا توجد سنوات دراسية مضافة حتى الآن.</td></tr>';
-            return;
-        }
-
-        // بناء صفوف الجدول لكل سنة دراسية
-        data.forEach(year => {
-            const row = document.createElement('tr');
-            row.innerHTML = `
-                <td><strong>${year.name}</strong></td>
-                <td>${year.start_date || 'غير محدد'}</td>
-                <td>${year.end_date || 'غير محدد'}</td>
-                <td>${year.is_active ? 'نشطة' : 'غير نشطة'}</td>
-                <td>
-                    <button onclick="deleteYear('${year.id}')">حذف</button>
-                </td>
-            `;
-            tableBody.appendChild(row);
-        });
-    }
-
-    // 2. دالة لإضافة سنة دراسية جديدة عند إرسال النموذج
-    addForm.addEventListener('submit', async (e) => {
-        e.preventDefault(); // منع إعادة تحميل الصفحة الافتراضي
-        
-        const name = document.getElementById('year-name').value;
-        const startDate = document.getElementById('start-date').value;
-        const endDate = document.getElementById('end-date').value;
-
-        // إرسال البيانات إلى Supabase
-        const { error } = await supabaseClient
-            .from('academic_years')
-            .insert([
-                { name: name, start_date: startDate, end_date: endDate, is_active: false }
-            ]);
-
-        if (error) {
-            alert('حدث خطأ أثناء إضافة السنة الدراسية!');
-            console.error(error);
-        } else {
-            alert('تمت إضافة السنة الدراسية بنجاح!');
-            addForm.reset(); // تفريغ الحقول
-            fetchAcademicYears(); // تحديث الجدول فوراً لعرض السنة الجديدة
-        }
-    });
-
-    // تشغيل دالة الجلب فور فتح الصفحة
-    fetchAcademicYears();
-});
-
-// 3. دالة لحذف سنة دراسية (مربوطة بزر الحذف في الجدول)
-window.deleteYear = async function(id) {
-    if(confirm('هل أنت متأكد من رغبتك في حذف هذه السنة الدراسية؟ سيتم حذف كل ما يرتبط بها!')) {
-        const { error } = await supabaseClient
-            .from('academic_years')
-            .delete()
-            .eq('id', id);
-        
-        if(error) {
-            alert('حدث خطأ أثناء الحذف');
-            console.error(error);
-        } else {
-            location.reload(); // تحديث الصفحة
-        }
-    }
-}
+    <script src="../js/config.js"></script>
+    <script src="../js/academic-years.js"></script>
+</body>
+</html>
