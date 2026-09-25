@@ -1,3 +1,6 @@
+## هيكل المشروع (Project Structure)
+
+```text
 school-platform/
 │
 ├── index.html
