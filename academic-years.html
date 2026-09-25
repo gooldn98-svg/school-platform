@@ -1,0 +1,92 @@
+// js/academic-years.js
+
+document.addEventListener('DOMContentLoaded', () => {
+    const tableBody = document.querySelector('#academic-years-table tbody');
+    const addForm = document.getElementById('add-academic-year-form');
+
+    // 1. دالة لجلب السنوات الدراسية وعرضها في الجدول
+    async function fetchAcademicYears() {
+        // رسالة تحميل مؤقتة
+        tableBody.innerHTML = '<tr><td colspan="5">جاري جلب البيانات من قاعدة البيانات...</td></tr>';
+        
+        // الاتصال بـ Supabase وجلب البيانات
+        const { data, error } = await supabaseClient
+            .from('academic_years')
+            .select('*')
+            .order('created_at', { ascending: false });
+
+        if (error) {
+            console.error('Error fetching data:', error);
+            tableBody.innerHTML = '<tr><td colspan="5" style="color:red;">حدث خطأ أثناء جلب البيانات. تأكد من الاتصال.</td></tr>';
+            return;
+        }
+
+        // تفريغ الجدول للبدء بإضافة البيانات
+        tableBody.innerHTML = ''; 
+
+        if (data.length === 0) {
+            tableBody.innerHTML = '<tr><td colspan="5">لا توجد سنوات دراسية مضافة حتى الآن.</td></tr>';
+            return;
+        }
+
+        // بناء صفوف الجدول لكل سنة دراسية
+        data.forEach(year => {
+            const row = document.createElement('tr');
+            row.innerHTML = `
+                <td><strong>${year.name}</strong></td>
+                <td>${year.start_date || 'غير محدد'}</td>
+                <td>${year.end_date || 'غير محدد'}</td>
+                <td>${year.is_active ? 'نشطة' : 'غير نشطة'}</td>
+                <td>
+                    <button onclick="deleteYear('${year.id}')">حذف</button>
+                </td>
+            `;
+            tableBody.appendChild(row);
+        });
+    }
+
+    // 2. دالة لإضافة سنة دراسية جديدة عند إرسال النموذج
+    addForm.addEventListener('submit', async (e) => {
+        e.preventDefault(); // منع إعادة تحميل الصفحة الافتراضي
+        
+        const name = document.getElementById('year-name').value;
+        const startDate = document.getElementById('start-date').value;
+        const endDate = document.getElementById('end-date').value;
+
+        // إرسال البيانات إلى Supabase
+        const { error } = await supabaseClient
+            .from('academic_years')
+            .insert([
+                { name: name, start_date: startDate, end_date: endDate, is_active: false }
+            ]);
+
+        if (error) {
+            alert('حدث خطأ أثناء إضافة السنة الدراسية!');
+            console.error(error);
+        } else {
+            alert('تمت إضافة السنة الدراسية بنجاح!');
+            addForm.reset(); // تفريغ الحقول
+            fetchAcademicYears(); // تحديث الجدول فوراً لعرض السنة الجديدة
+        }
+    });
+
+    // تشغيل دالة الجلب فور فتح الصفحة
+    fetchAcademicYears();
+});
+
+// 3. دالة لحذف سنة دراسية (مربوطة بزر الحذف في الجدول)
+window.deleteYear = async function(id) {
+    if(confirm('هل أنت متأكد من رغبتك في حذف هذه السنة الدراسية؟ سيتم حذف كل ما يرتبط بها!')) {
+        const { error } = await supabaseClient
+            .from('academic_years')
+            .delete()
+            .eq('id', id);
+        
+        if(error) {
+            alert('حدث خطأ أثناء الحذف');
+            console.error(error);
+        } else {
+            location.reload(); // تحديث الصفحة
+        }
+    }
+}
