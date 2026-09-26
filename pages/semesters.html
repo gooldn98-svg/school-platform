@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>إدارة الفصول الدراسية - منصة المدرسة</title>
+    <!-- ربط ملف الـ CSS العام -->
+    <link rel="stylesheet" href="../css/style.css">
+    <!-- مكتبة Supabase عبر CDN -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+</head>
+<body>
+    <header>
+        <h1>إدارة الفصول الدراسية</h1>
+        <nav>
+            <a href="../index.html">الرئيسية</a>
+            <a href="academic-years.html">السنوات الدراسية</a>
+        </nav>
+    </header>
+
+    <main>
+        <!-- نموذج إضافة فصل دراسي جديد -->
+        <section class="form-section">
+            <h2>إضافة فصل دراسي جديد</h2>
+            <form id="add-semester-form">
+                <div class="form-group">
+                    <label for="academic-year-select">اختر السنة الدراسية:</label>
+                    <select id="academic-year-select" required>
+                        <option value="">جاري تحميل السنوات الدراسية...</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="semester-name">اسم الفصل الدراسي (مثل: الفصل الدراسي الأول):</label>
+                    <input type="text" id="semester-name" required placeholder="أدخل اسم الفصل">
+                </div>
+                <div class="form-group">
+                    <label for="start-date">تاريخ البداية:</label>
+                    <input type="date" id="start-date" required>
+                </div>
+                <div class="form-group">
+                    <label for="end-date">تاريخ النهاية:</label>
+                    <input type="date" id="end-date" required>
+                </div>
+                <button type="submit">إضافة الفصل</button>
+            </form>
+        </section>
+
+        <hr>
+
+        <!-- جدول عرض الفصول الدراسية -->
+        <section class="table-section">
+            <h2>قائمة الفصول الدراسية</h2>
+            <table id="semesters-table">
+                <thead>
+                    <tr>
+                        <th>اسم الفصل</th>
+                        <th>السنة الدراسية</th>
+                        <th>تاريخ البداية</th>
+                        <th>تاريخ النهاية</th>
+                        <th>الإجراءات</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td colspan="5">جاري التحميل...</td>
+                    </tr>
+                </tbody>
+            </table>
+        </section>
+    </main>
+
+    <!-- ملفات الجافاسكريبت -->
+    <script src="../js/config.js"></script>
+    <script src="../js/semesters.js"></script>
+</body>
+</html>
