@@ -1,30 +1,94 @@
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
+
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>تسجيل الدخول - منصة المدرسة</title>
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>تسجيل دخول المالك - منصة المدرسة</title>
+
     <link rel="stylesheet" href="../css/style.css">
+
+    <!-- Supabase -->
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 </head>
+
 <body class="auth-body">
+
     <div class="auth-container">
-        <h2>تسجيل الدخول للمنصة</h2>
+
+        <h2>تسجيل الدخول</h2>
+
+        <p class="auth-subtitle">
+            دخول مالك المنصة
+        </p>
+
         <form id="login-form">
+
             <div class="form-group">
-                <label for="email">البريد الإلكتروني:</label>
-                <input type="email" id="email" required placeholder="أدخل بريدك الإلكتروني">
+
+                <label for="email">
+                    البريد الإلكتروني
+                </label>
+
+                <input
+                    type="email"
+                    id="email"
+                    value="gooldn98@gmail.com"
+                    required
+                    autocomplete="email"
+                >
+
             </div>
+
+
             <div class="form-group">
-                <label for="password">كلمة المرور:</label>
-                <input type="password" id="password" required placeholder="أدخل كلمة المرور">
+
+                <label for="password">
+                    كلمة المرور
+                </label>
+
+                <input
+                    type="password"
+                    id="password"
+                    required
+                    autocomplete="current-password"
+                    placeholder="أدخل كلمة المرور"
+                >
+
             </div>
-            <button type="submit" class="btn-primary">دخول</button>
+
+
+            <button
+                type="submit"
+                class="btn-primary">
+
+                دخول
+
+            </button>
+
+            <p id="login-message"></p>
+
         </form>
-        <p class="auth-footer"><a href="../index.html">العودة إلى الصفحة الرئيسية</a></p>
+
+
+        <p class="auth-footer">
+
+            <a href="../index.html">
+                العودة إلى الصفحة الرئيسية
+            </a>
+
+        </p>
+
     </div>
 
+
     <script src="../js/config.js"></script>
+
     <script src="../js/login.js"></script>
+
 </body>
+
 </html>
