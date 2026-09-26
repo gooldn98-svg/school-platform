@@ -1,26 +1,73 @@
-// js/login.js
+// إنشاء اتصال Supabase
+const supabaseClient = supabase.createClient(
+    SUPABASE_URL,
+    SUPABASE_ANON_KEY
+);
 
-document.addEventListener('DOMContentLoaded', () => {
-    const loginForm = document.getElementById('login-form');
 
-    loginForm.addEventListener('submit', async (e) => {
-        e.preventDefault();
+// نموذج تسجيل الدخول
+const loginForm = document.getElementById("login-form");
 
-        const email = document.getElementById('email').value;
-        const password = document.getElementById('password').value;
+const loginMessage =
+    document.getElementById("login-message");
 
-        // استخدام نظام المصادقة في Supabase
-        const { data, error } = await supabaseClient.auth.signInWithPassword({
-            email: email,
-            password: password,
-        });
+
+loginForm.addEventListener("submit", async (event) => {
+
+    event.preventDefault();
+
+
+    const email =
+        document.getElementById("email").value.trim();
+
+    const password =
+        document.getElementById("password").value;
+
+
+    loginMessage.textContent =
+        "جاري تسجيل الدخول...";
+
+
+    try {
+
+        const { data, error } =
+            await supabaseClient.auth.signInWithPassword({
+
+                email: email,
+
+                password: password
+
+            });
+
 
         if (error) {
-            alert('خطأ في البريد الإلكتروني أو كلمة المرور!');
+
+            loginMessage.textContent =
+                "البريد الإلكتروني أو كلمة المرور غير صحيحة.";
+
             console.error(error);
-        } else {
-            alert('تم تسجيل الدخول بنجاح!');
-            window.location.href = '../index.html'; // التوجيه للرئيسية بعد الدخول
+
+            return;
         }
-    });
+
+
+        // نجاح تسجيل الدخول
+        loginMessage.textContent =
+            "تم تسجيل الدخول بنجاح...";
+
+
+        // الانتقال إلى لوحة التحكم
+        window.location.href =
+            "../dashboard.html";
+
+
+    } catch (error) {
+
+        console.error(error);
+
+        loginMessage.textContent =
+            "حدث خطأ أثناء تسجيل الدخول.";
+
+    }
+
 });
