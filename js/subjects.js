@@ -1,87 +1,95 @@
 // js/subjects.js
 
-document.addEventListener('DOMContentLoaded', () => {
-    const tableBody = document.querySelector('#subjects-table tbody');
-    const addForm = document.getElementById('add-subject-form');
+document.addEventListener('DOMContentLoaded', async () => {
+    const subjectForm = document.getElementById('subject-form') || document.querySelector('form');
+    const subjectsTableBody = document.querySelector('tbody') || document.getElementById('subjects-list');
 
-    // 1. جلب وعرض المواد الدراسية من قاعدة البيانات
-    async function fetchSubjects() {
-        tableBody.innerHTML = '<tr><td colspan="3">جاري جلب المواد الدراسية...</td></tr>';
+    // جلب وحمل المواد عند فتح الصفحة
+    await fetchSubjects();
 
-        const { data, error } = await supabaseClient
-            .from('subjects')
-            .select('id, name, code')
-            .order('created_at', { ascending: false });
+    // إضافة مادة جديدة عند إرسال النموذج
+    if (subjectForm) {
+        subjectForm.addEventListener('submit', async (e) => {
+            e.preventDefault();
 
-        if (error) {
-            console.error('Error fetching subjects:', error);
-            tableBody.innerHTML = '<tr><td colspan="3" style="color:red;">حدث خطأ أثناء جلب المواد الدراسية.</td></tr>';
-            return;
-        }
+            const nameInput = document.querySelector('input[type="text"]:not([placeholder*="MATH"])') || document.querySelectorAll('input[type="text"]')[0];
+            const codeInput = document.querySelector('input[placeholder*="MATH"]') || document.querySelectorAll('input[type="text"]')[1];
 
-        tableBody.innerHTML = '';
+            const name = nameInput.value.trim();
+            const code = codeInput ? codeInput.value.trim() : '';
 
-        if (data.length === 0) {
-            tableBody.innerHTML = '<tr><td colspan="3">لا توجد مواد دراسية مضافة حتى الآن.</td></tr>';
-            return;
-        }
+            if (!name) {
+                alert('يرجى إدخال اسم المادة الدراسية');
+                return;
+            }
 
-        data.forEach(subject => {
-            const row = document.createElement('tr');
-            row.innerHTML = `
-                <td><strong>${subject.name}</strong></td>
-                <td>${subject.code || 'لا يوجد رمز'}</td>
-                <td>
-                    <button onclick="deleteSubject('${subject.id}')">حذف</button>
-                </td>
-            `;
-            tableBody.appendChild(row);
+            // إدراج المادة في Supabase
+            const { data, error } = await supabaseClient
+                .from('subjects')
+                .insert([{ name: name, code: code }]);
+
+            if (error) {
+                console.error('خطأ في إضافة المادة:', error);
+                alert('حدث خطأ أثناء إضافة المادة: ' + error.message);
+            } else {
+                nameInput.value = '';
+                if (codeInput) codeInput.value = '';
+                await fetchSubjects(); // تحديث القائمة
+            }
         });
     }
 
-    // 2. إضافة مادة دراسية جديدة عند إرسال النموذج
-    addForm.addEventListener('submit', async (e) => {
-        e.preventDefault();
-
-        const name = document.getElementById('subject-name').value;
-        const code = document.getElementById('subject-code').value;
-
-        const { error } = await supabaseClient
+    // دالة جلب المواد الدراسية من قاعدة البيانات
+    async function fetchSubjects() {
+        const { data: subjects, error } = await supabaseClient
             .from('subjects')
-            .insert([
-                { 
-                    name: name, 
-                    code: code 
-                }
-            ]);
+            .select('*')
+            .order('id', { ascending: false });
 
         if (error) {
-            alert('حدث خطأ أثناء إضافة المادة الدراسية!');
-            console.error(error);
-        } else {
-            alert('تمت إضافة المادة الدراسية بنجاح!');
-            addForm.reset();
-            fetchSubjects();
+            console.error('خطأ في جلب البيانات:', error);
+            return;
         }
-    });
 
-    // تنفيذ دالة الجلب عند تحميل الصفحة
-    fetchSubjects();
-});
-
-// 3. دالة لحذف مادة دراسية
-window.deleteSubject = async function(id) {
-    if (confirm('هل أنت متأكد من رغبتك في حذف هذه المادة الدراسية؟')) {
-        const { error } = await supabaseClient
-            .from('subjects')
-            .delete()
-            .eq('id', id);
-
-        if (error) {
-            alert('حدث خطأ أثناء الحذف');
-            console.error(error);
-        } else {
-            location.reload();
-        }
+        renderSubjects(subjects);
     }
-}
+
+    // دالة عرض المواد في الجدول
+    function renderSubjects(subjects) {
+        if (!subjectsTableBody) return;
+
+        if (subjects.length === 0) {
+            subjectsTableBody.innerHTML = `
+                <tr>
+                    <td colspan="3" style="text-align: center; color: #666;">لا توجد مواد دراسية مضافة حتى الآن.</td>
+                </tr>`;
+            return;
+        }
+
+        subjectsTableBody.innerHTML = subjects.map(subject => `
+            <tr>
+                <td>${subject.name}</td>
+                <td>${subject.code || '-'}</td>
+                <td>
+                    <button onclick="deleteSubject(${subject.id})" style="background-color: #ef4444; padding: 5px 10px; font-size: 12px;">حذف</button>
+                </td>
+            </tr>
+        `).join('');
+    }
+
+    // جعل دالة الحذف متاحة عالمياً
+    window.deleteSubject = async (id) => {
+        if (confirm('هل أنت تأكد من رغبتك في حذف هذه المادة؟')) {
+            const { error } = await supabaseClient
+                .from('subjects')
+                .delete()
+                .eq('id', id);
+
+            if (error) {
+                alert('خطأ في الحذف: ' + error.message);
+            } else {
+                await fetchSubjects();
+            }
+        }
+    };
+});
