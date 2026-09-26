@@ -2,11 +2,13 @@
 
 document.addEventListener('DOMContentLoaded', () => {
     const yearSelect = document.getElementById('academic-year-select');
-    const tableBody = document.querySelector('#semesters-table tbody');
+    const tableBody = document.querySelector('tbody'); 
     const addForm = document.getElementById('add-semester-form');
 
-    // 1. جلب السنوات الدراسية لملء القائمة المنسدلة (Dropdown)
+    // 1. جلب السنوات الدراسية لملء القائمة المنسدلة
     async function fetchAcademicYearsDropdown() {
+        if (!yearSelect) return;
+        
         const { data, error } = await supabaseClient
             .from('academic_years')
             .select('id, name')
@@ -18,7 +20,7 @@ document.addEventListener('DOMContentLoaded', () => {
             return;
         }
 
-        yearSelect.innerHTML = '<option value="">اختر السنة الدراسية</option>';
+        yearSelect.innerHTML = '<option value="">-- اختر السنة الدراسية --</option>';
         data.forEach(year => {
             const option = document.createElement('option');
             option.value = year.id;
@@ -27,8 +29,9 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
-    // 2. جلب وعرض الفصول الدراسية مع اسم السنة التابعة لها
+    // 2. جلب وعرض الفصول الدراسية
     async function fetchSemesters() {
+        if (!tableBody) return;
         tableBody.innerHTML = '<tr><td colspan="5">جاري جلب الفصول الدراسية...</td></tr>';
 
         const { data, error } = await supabaseClient
@@ -64,47 +67,48 @@ document.addEventListener('DOMContentLoaded', () => {
                 <td>${semester.start_date || 'غير محدد'}</td>
                 <td>${semester.end_date || 'غير محدد'}</td>
                 <td>
-                    <button onclick="deleteSemester('${semester.id}')">حذف</button>
+                    <button onclick="deleteSemester('${semester.id}')" style="background-color: #ef4444; color: white; border: none; padding: 5px 10px; border-radius: 4px; cursor: pointer;">حذف</button>
                 </td>
             `;
             tableBody.appendChild(row);
         });
     }
 
-    // 3. إضافة فصل دراسي جديد عند إرسال النموذج
-    addForm.addEventListener('submit', async (e) => {
-        e.preventDefault();
+    // 3. إضافة فصل دراسي جديد
+    if (addForm) {
+        addForm.addEventListener('submit', async (e) => {
+            e.preventDefault();
 
-        const academicYearId = yearSelect.value;
-        const name = document.getElementById('semester-name').value;
-        const startDate = document.getElementById('start-date').value;
-        const endDate = document.getElementById('end-date').value;
+            const academicYearId = yearSelect.value;
+            const name = document.getElementById('semester-name').value.trim();
+            const startDate = document.getElementById('start-date').value;
+            const endDate = document.getElementById('end-date').value;
 
-        if (!academicYearId) {
-            alert('الرجاء اختيار السنة الدراسية أولاً!');
-            return;
-        }
+            if (!academicYearId || !name) {
+                alert('الرجاء اختيار السنة الدراسية وإدخال اسم الفصل!');
+                return;
+            }
 
-        const { error } = await supabaseClient
-            .from('semesters')
-            .insert([
-                { 
-                    academic_year_id: academicYearId, 
-                    name: name, 
-                    start_date: startDate, 
-                    end_date: endDate 
-                }
-            ]);
+            const { error } = await supabaseClient
+                .from('semesters')
+                .insert([
+                    { 
+                        academic_year_id: academicYearId, 
+                        name: name, 
+                        start_date: startDate || null, 
+                        end_date: endDate || null 
+                    }
+                ]);
 
-        if (error) {
-            alert('حدث خطأ أثناء إضافة الفصل الدراسي!');
-            console.error(error);
-        } else {
-            alert('تمت إضافة الفصل الدراسي بنجاح!');
-            addForm.reset();
-            fetchSemesters();
-        }
-    });
+            if (error) {
+                alert('حدث خطأ أثناء إضافة الفصل الدراسي!');
+                console.error(error);
+            } else {
+                addForm.reset();
+                fetchSemesters();
+            }
+        });
+    }
 
     fetchAcademicYearsDropdown();
     fetchSemesters();
@@ -125,4 +129,4 @@ window.deleteSemester = async function(id) {
             location.reload();
         }
     }
-}
+};
