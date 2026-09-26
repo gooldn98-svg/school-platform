@@ -1,77 +1,75 @@
 // js/grades.js
 
 document.addEventListener('DOMContentLoaded', () => {
-    const tableBody = document.querySelector('#grades-table tbody');
+    const tableBody = document.querySelector('tbody');
     const addForm = document.getElementById('add-grade-form');
 
-    // 1. جلب وعرض الصفوف الدراسية من قاعدة البيانات
+    // جلب وعرض الصفوف الدراسية
     async function fetchGrades() {
-        tableBody.innerHTML = '<tr><td colspan="3">جاري جلب الصفوف الدراسية...</td></tr>';
+        if (!tableBody) return;
+        tableBody.innerHTML = '<tr><td colspan="2">جاري جلب الصفوف...</td></tr>';
 
         const { data, error } = await supabaseClient
             .from('grades')
-            .select('id, name, description')
+            .select('id, name')
             .order('created_at', { ascending: false });
 
         if (error) {
             console.error('Error fetching grades:', error);
-            tableBody.innerHTML = '<tr><td colspan="3" style="color:red;">حدث خطأ أثناء جلب الصفوف الدراسية.</td></tr>';
+            tableBody.innerHTML = '<tr><td colspan="2" style="color:red;">حدث خطأ أثناء جلب الصفوف.</td></tr>';
+            return;
+        }
+
+        if (data.length === 0) {
+            tableBody.innerHTML = '<tr><td colspan="2">لا توجد صفوف دراسية مضافة حتى الآن.</td></tr>';
             return;
         }
 
         tableBody.innerHTML = '';
-
-        if (data.length === 0) {
-            tableBody.innerHTML = '<tr><td colspan="3">لا توجد صفوف دراسية مضافة حتى الآن.</td></tr>';
-            return;
-        }
-
         data.forEach(grade => {
             const row = document.createElement('tr');
             row.innerHTML = `
                 <td><strong>${grade.name}</strong></td>
-                <td>${grade.description || 'لا توجد ملاحظات'}</td>
                 <td>
-                    <button onclick="deleteGrade('${grade.id}')">حذف</button>
+                    <button onclick="deleteGrade('${grade.id}')" style="background-color: #ef4444; color: white; border: none; padding: 5px 10px; border-radius: 4px; cursor: pointer;">حذف</button>
                 </td>
             `;
             tableBody.appendChild(row);
         });
     }
 
-    // 2. إضافة صف دراسي جديد عند إرسال النموذج
-    addForm.addEventListener('submit', async (e) => {
-        e.preventDefault();
+    // إضافة صف دراسي جديد
+    if (addForm) {
+        addForm.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            
+            const nameInput = document.getElementById('grade-name').value.trim();
 
-        const name = document.getElementById('grade-name').value;
-        const description = document.getElementById('grade-description').value;
+            if (!nameInput) {
+                alert('الرجاء إدخال اسم الصف!');
+                return;
+            }
 
-        const { error } = await supabaseClient
-            .from('grades')
-            .insert([
-                { 
-                    name: name, 
-                    description: description 
-                }
-            ]);
+            const { error } = await supabaseClient
+                .from('grades')
+                .insert([{ name: nameInput }]);
 
-        if (error) {
-            alert('حدث خطأ أثناء إضافة الصف الدراسي!');
-            console.error(error);
-        } else {
-            alert('تمت إضافة الصف الدراسي بنجاح!');
-            addForm.reset();
-            fetchGrades();
-        }
-    });
+            if (error) {
+                alert('حدث خطأ أثناء إضافة الصف!');
+                console.error(error);
+            } else {
+                addForm.reset();
+                fetchGrades();
+            }
+        });
+    }
 
-    // تنفيذ دالة الجلب عند تحميل الصفحة
     fetchGrades();
 });
 
-// 3. دالة لحذف صف دراسي
+// دالة حذف الصف
 window.deleteGrade = async function(id) {
-    if (confirm('هل أنت متأكد من رغبتك في حذف هذا الصف الدراسي؟')) {
+    if (confirm('هل أنت متأكد من رغبتك في حذف هذا الصف؟')) {
         const { error } = await supabaseClient
             .from('grades')
             .delete()
@@ -81,7 +79,17 @@ window.deleteGrade = async function(id) {
             alert('حدث خطأ أثناء الحذف');
             console.error(error);
         } else {
-            location.reload();
+            // تحديث الجدول دون إعادة تحميل الصفحة بالكامل
+            const tableBody = document.querySelector('tbody');
+            if(tableBody) {
+                tableBody.innerHTML = '<tr><td colspan="2">جاري التحديث...</td></tr>';
+            }
+            
+            // إعادة استدعاء الدالة لجلب البيانات الجديدة
+            const { data } = await supabaseClient.from('grades').select('*').order('created_at', { ascending: false });
+            if(data) {
+                location.reload(); // سيتم استبدالها بدالة جلب البيانات إذا تم هيكلتها كـ Module، استخدمنا reload للتبسيط وضمان التحديث
+            }
         }
     }
 }
