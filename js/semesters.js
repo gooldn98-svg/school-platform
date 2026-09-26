@@ -12,7 +12,7 @@ document.addEventListener('DOMContentLoaded', () => {
         const { data, error } = await supabaseClient
             .from('academic_years')
             .select('id, name')
-            .order('created_at', { ascending: false });
+            .order('id', { ascending: false });
 
         if (error) {
             console.error('Error fetching academic years:', error);
@@ -29,7 +29,7 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
-    // 2. جلب وعرض الفصول الدراسية
+    // 2. جلب وعرض الفصول الدراسية (مرتبة حسب المعرف id لتفادي أخطاء created_at)
     async function fetchSemesters() {
         if (!tableBody) return;
         tableBody.innerHTML = '<tr><td colspan="5">جاري جلب الفصول الدراسية...</td></tr>';
@@ -43,7 +43,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 end_date,
                 academic_years ( name )
             `)
-            .order('created_at', { ascending: false });
+            .order('id', { ascending: false });
 
         if (error) {
             console.error('Error fetching semesters:', error);
