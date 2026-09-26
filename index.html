@@ -1,119 +1,24 @@
-<!DOCTYPE html>
-<html lang="ar" dir="rtl">
-
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="منصة المدرسة التعليمية الرقمية">
-    <title>منصة المدرسة التعليمية</title>
-    <link rel="stylesheet" href="css/style.css">
-</head>
-
-<body>
-
-    <header class="topbar">
-        <div class="logo">
-            <span class="logo-icon">م</span>
-            <div>
-                <h1>منصة المدرسة</h1>
-                <p>المنصة التعليمية الرقمية</p>
-            </div>
+<header>
+    <div class="brand-container">
+        <!-- منطقة الشعار -->
+        <div class="logo-wrapper" onclick="document.getElementById('logo-input').click()">
+            <img id="platform-logo" src="https://via.placeholder.com/40?text=Logo" alt="شعار المنصة">
+            <input type="file" id="logo-input" accept="image/*" style="display: none;">
+            <span class="logo-hover-text">تغيير الشعار</span>
         </div>
 
-        <nav class="nav-links">
-            <a href="pages/academic-years.html">السنوات الدراسية</a>
-            <a href="pages/grades.html">الصفوف</a>
-            <a href="pages/subjects.html">المواد الدراسية</a>
-        </nav>
-
-        <a href="pages/login.html" class="login-button">
-            تسجيل الدخول
-        </a>
-    </header>
-
-    <main class="hero">
-        <section class="hero-content">
-            <span class="badge">
-                منصة تعليمية رقمية
-            </span>
-
-            <h2>
-                إدارة التعليم المدرسي
-                <br>
-                بطريقة رقمية متكاملة
-            </h2>
-
-            <p>
-                منصة لإدارة السنوات الدراسية والفصول والصفوف
-                والشعب والمواد والمناهج والطلاب والمعلمين.
-            </p>
-
-            <div class="hero-buttons">
-                <a href="pages/login.html" class="primary-button">
-                    الدخول إلى المنصة
-                </a>
-
-                <a href="#features" class="secondary-button">
-                    تعرف على المنصة
-                </a>
-            </div>
-        </section>
-    </main>
-
-    <section id="features" class="features">
-        <h2>مكونات المنصة</h2>
-
-        <div class="feature-grid">
-            <div class="feature-card">
-                <span>📚</span>
-                <h3>المناهج والمواد</h3>
-                <p>
-                    إدارة المناهج والوحدات والمواد الدراسية
-                    والموارد التعليمية.
-                </p>
-            </div>
-
-            <div class="feature-card">
-                <span>👨‍🏫</span>
-                <h3>المعلمون</h3>
-                <p>
-                    إدارة بيانات المعلمين والمواد
-                    والشعب المسندة إليهم.
-                </p>
-            </div>
-
-            <div class="feature-card">
-                <span>👨‍🎓</span>
-                <h3>الطلاب</h3>
-                <p>
-                    إدارة الطلاب والشعب والتسجيلات
-                    والدرجات والحضور.
-                </p>
-            </div>
-
-            <div class="feature-card">
-                <span>👨‍👩‍👧</span>
-                <h3>أولياء الأمور</h3>
-                <p>
-                    متابعة الأبناء والدرجات والحضور
-                    والإعلانات.
-                </p>
-            </div>
+        <!-- اسم المنصة القابل للتعديل -->
+        <div class="title-wrapper">
+            <h1 id="platform-title" contenteditable="true" title="انقر لتعديل اسم المنصة">منصة المدرسة</h1>
+            <small class="edit-hint">✏️ انقر لتعديل الاسم</small>
         </div>
-    </section>
+    </div>
 
-    <footer>
-        <p>
-            © 2026 منصة المدرسة التعليمية
-        </p>
-        <p>
-            إعداد وتطوير أ/ أنيس المقطري
-        </p>
-    </footer>
-
-    <!-- Supabase CDN & Config -->
-    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-    <script src="js/config.js"></script>
-</body>
-
-</html>
+    <nav>
+        <a href="index.html">الرئيسية</a>
+        <a href="pages/academic-years.html">السنوات الدراسية</a>
+        <a href="pages/subjects.html">المواد الدراسية</a>
+        <a href="pages/grades.html">الصفوف</a>
+        <a href="pages/login.html" class="login-btn">تسجيل الدخول</a>
+    </nav>
+</header>
