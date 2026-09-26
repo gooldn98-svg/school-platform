@@ -1,24 +1,146 @@
-<header>
-    <div class="brand-container">
-        <!-- منطقة الشعار -->
-        <div class="logo-wrapper" onclick="document.getElementById('logo-input').click()">
-            <img id="platform-logo" src="https://via.placeholder.com/40?text=Logo" alt="شعار المنصة">
-            <input type="file" id="logo-input" accept="image/*" style="display: none;">
-            <span class="logo-hover-text">تغيير الشعار</span>
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>منصة المدرسة - الرئيسية</title>
+    <link rel="stylesheet" href="css/style.css">
+    <style>
+        /* تنسيقات إضافية خاصة بالهيدر الشعار والاسم التفاعلي */
+        .brand-container {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .logo-wrapper {
+            position: relative;
+            width: 45px;
+            height: 45px;
+            border-radius: 8px;
+            overflow: hidden;
+            cursor: pointer;
+            border: 1px dashed #cbd5e1;
+            background-color: #f1f5f9;
+        }
+
+        .logo-wrapper img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .logo-hover-text {
+            position: absolute;
+            inset: 0;
+            background: rgba(0, 0, 0, 0.6);
+            color: #fff;
+            font-size: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            opacity: 0;
+            transition: opacity 0.2s;
+            text-align: center;
+        }
+
+        .logo-wrapper:hover .logo-hover-text {
+            opacity: 1;
+        }
+
+        .title-wrapper {
+            display: flex;
+            flex-direction: column;
+        }
+
+        #platform-title {
+            margin: 0;
+            font-size: 20px;
+            color: #2563eb;
+            padding: 2px 6px;
+            border-radius: 4px;
+            outline: none;
+            transition: background-color 0.2s;
+        }
+
+        #platform-title:hover, #platform-title:focus {
+            background-color: #eff6ff;
+            border: 1px dashed #2563eb;
+        }
+
+        .edit-hint {
+            font-size: 10px;
+            color: #64748b;
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <div class="brand-container">
+            <!-- منطقة الشعار -->
+            <div class="logo-wrapper" onclick="document.getElementById('logo-input').click()">
+                <img id="platform-logo" src="https://via.placeholder.com/40?text=Logo" alt="شعار المنصة">
+                <input type="file" id="logo-input" accept="image/*" style="display: none;">
+                <span class="logo-hover-text">تغيير الشعار</span>
+            </div>
+
+            <!-- اسم المنصة القابل للتعديل -->
+            <div class="title-wrapper">
+                <h1 id="platform-title" contenteditable="true" title="انقر لتعديل اسم المنصة">منصة المدرسة</h1>
+                <small class="edit-hint">✏️ انقر لتعديل الاسم</small>
+            </div>
         </div>
 
-        <!-- اسم المنصة القابل للتعديل -->
-        <div class="title-wrapper">
-            <h1 id="platform-title" contenteditable="true" title="انقر لتعديل اسم المنصة">منصة المدرسة</h1>
-            <small class="edit-hint">✏️ انقر لتعديل الاسم</small>
-        </div>
-    </div>
+        <nav>
+            <a href="index.html">الرئيسية</a>
+            <a href="pages/academic-years.html">السنوات الدراسية</a>
+            <a href="pages/subjects.html">المواد الدراسية</a>
+            <a href="pages/grades.html">الصفوف</a>
+            <a href="pages/login.html" class="login-btn">تسجيل الدخول</a>
+        </nav>
+    </header>
 
-    <nav>
-        <a href="index.html">الرئيسية</a>
-        <a href="pages/academic-years.html">السنوات الدراسية</a>
-        <a href="pages/subjects.html">المواد الدراسية</a>
-        <a href="pages/grades.html">الصفوف</a>
-        <a href="pages/login.html" class="login-btn">تسجيل الدخول</a>
-    </nav>
-</header>
+    <main>
+        <section class="hero-section">
+            <h2>إدارة التعليم المدرسي بطريقة رقمية متكاملة</h2>
+            <p>منصة لإدارة السنوات الدراسية والفصول والصفوف والشعب والمناهج والطلاب والمعلمين.</p>
+        </section>
+
+        <section class="features-section">
+            <h3>مكونات المنصة</h3>
+            <div class="cards-grid">
+                <div class="card">
+                    <div class="icon">📚</div>
+                    <h4>المناهج والمواد</h4>
+                    <p>إدارة المناهج والوحدات والمواد الدراسية والموارد التعليمية.</p>
+                </div>
+                <div class="card">
+                    <div class="icon">👨‍🏫</div>
+                    <h4>المعلمون</h4>
+                    <p>إدارة بيانات المعلمين والمواد والشعب المسندة إليهم.</p>
+                </div>
+                <div class="card">
+                    <div class="icon">👨‍🎓</div>
+                    <h4>الطلاب</h4>
+                    <p>إدارة الطلاب والشعب والتسجيلات والدرجات والحضور.</p>
+                </div>
+                <div class="card">
+                    <div class="icon">👨‍👩‍👧‍👦</div>
+                    <h4>أولياء الأمور</h4>
+                    <p>متابعة الأبناء والدرجات والحضور والإعلانات.</p>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <p>© 2026 منصة المدرسة التعليمية</p>
+        <p>إعداد وتطوير أ/ أنيس المقطري</p>
+    </footer>
+
+    <!-- ربط السكربتات في الأسفل بالترتيب الصحيح -->
+    <script src="js/config.js"></script>
+    <script src="js/settings.js"></script>
+</body>
+</html>
