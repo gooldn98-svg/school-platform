@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>إدارة الوحدات الدراسية - منصة المدرسة</title>
+    <link rel="stylesheet" href="../css/style.css">
+</head>
+<body>
+    <header>
+        <h1>إدارة الوحدات الدراسية</h1>
+        <nav>
+            <a href="../index.html">الرئيسية</a>
+            <a href="academic-years.html">السنوات الدراسية</a>
+            <a href="semesters.html">الفصول الدراسية</a>
+            <a href="grades.html">الصفوف الدراسية</a>
+            <a href="subjects.html">المواد الدراسية</a>
+            <a href="grade-subjects.html">ربط المواد</a>
+            <a href="chapters.html">الوحدات الدراسية</a>
+        </nav>
+    </header>
+
+    <main>
+        <section class="form-section">
+            <h2>إضافة وحدة دراسية جديدة</h2>
+            <form id="add-chapter-form">
+                <div class="form-group">
+                    <label for="grade-subject-select">اختر الصف والمادة:</label>
+                    <select id="grade-subject-select" required>
+                        <option value="">-- جاري التحميل --</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label for="chapter-name">اسم الوحدة (مثال: وحدة التفاضل والتكامل):</label>
+                    <input type="text" id="chapter-name" required placeholder="أدخل اسم الوحدة الدراسية">
+                </div>
+
+                <div class="form-group">
+                    <label for="chapter-order">رقم / ترتيب الوحدة (اختياري):</label>
+                    <input type="number" id="chapter-order" placeholder="مثل: 1, 2, 3">
+                </div>
+
+                <button type="submit">إضافة الوحدة</button>
+            </form>
+        </section>
+
+        <hr>
+
+        <section class="table-section">
+            <h2>قائمة الوحدات الدراسية</h2>
+            <table>
+                <thead>
+                    <tr>
+                        <th>الصف الدراسي</th>
+                        <th>المادة الدراسية</th>
+                        <th>اسم الوحدة</th>
+                        <th>الترتيب</th>
+                        <th>الإجراءات</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td colspan="5">جاري التحميل...</td>
+                    </tr>
+                </tbody>
+            </table>
+        </section>
+    </main>
+
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="../js/config.js"></script>
+    <script src="../js/chapters.js"></script>
+</body>
+</html>
