@@ -12,10 +12,11 @@ document.addEventListener('DOMContentLoaded', () => {
         const { data, error } = await supabaseClient
             .from('grades')
             .select('id, name')
-            .order('id', { ascending: true });
+            .order('name', { ascending: true });
 
         if (error) {
             console.error('Error fetching grades:', error);
+            gradeSelect.innerHTML = '<option value="">خطأ في تحميل الصفوف</option>';
             return;
         }
 
@@ -38,6 +39,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
         if (error) {
             console.error('Error fetching subjects:', error);
+            subjectSelect.innerHTML = '<option value="">خطأ في تحميل المواد</option>';
             return;
         }
 
@@ -66,7 +68,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
         if (error) {
             console.error('Error fetching grade-subjects:', error);
-            tableBody.innerHTML = '<tr><td colspan="3" style="color:red;">حدث خطأ أثناء جلب ربط المواد بالصفوف.</td></tr>';
+            tableBody.innerHTML = '<tr><td colspan="3" style="color:red;">حدث خطأ أثناء جلب ربط المواد.</td></tr>';
             return;
         }
 
