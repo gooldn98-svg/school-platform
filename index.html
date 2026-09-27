@@ -3,149 +3,94 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>منصة المدرسة - الرئيسية</title>
+    <meta name="theme-color" content="#1d4ed8">
+    <meta name="description" content="منصة المدرسة التعليمية - لوحة التحكم الرئيسية لإدارة العملية التعليمية">
+    <title>الرئيسية | منصة المدرسة التعليمية</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;500;600;700;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="css/style.css">
-    <style>
-        /* تنسيقات إضافية خاصة بالهيدر الشعار والاسم التفاعلي */
-        .brand-container {
-            display: flex;
-            align-items: center;
-            gap: 12px;
-        }
-
-        .logo-wrapper {
-            position: relative;
-            width: 45px;
-            height: 45px;
-            border-radius: 8px;
-            overflow: hidden;
-            cursor: pointer;
-            border: 1px dashed #cbd5e1;
-            background-color: #f1f5f9;
-        }
-
-        .logo-wrapper img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-        }
-
-        .logo-hover-text {
-            position: absolute;
-            inset: 0;
-            background: rgba(0, 0, 0, 0.6);
-            color: #fff;
-            font-size: 10px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            opacity: 0;
-            transition: opacity 0.2s;
-            text-align: center;
-        }
-
-        .logo-wrapper:hover .logo-hover-text {
-            opacity: 1;
-        }
-
-        .title-wrapper {
-            display: flex;
-            flex-direction: column;
-        }
-
-        #platform-title {
-            margin: 0;
-            font-size: 20px;
-            color: #2563eb;
-            padding: 2px 6px;
-            border-radius: 4px;
-            outline: none;
-            transition: background-color 0.2s;
-        }
-
-        #platform-title:hover, #platform-title:focus {
-            background-color: #eff6ff;
-            border: 1px dashed #2563eb;
-        }
-
-        .edit-hint {
-            font-size: 10px;
-            color: #64748b;
-        }
-    </style>
 </head>
 <body>
-
-    <header>
-        <div class="brand-container">
-            <!-- منطقة الشعار -->
-            <div class="logo-wrapper" onclick="document.getElementById('logo-input').click()">
-                <img id="platform-logo" src="https://via.placeholder.com/40?text=Logo" alt="شعار المنصة">
-                <input type="file" id="logo-input" accept="image/*" style="display: none;">
-                <span class="logo-hover-text">تغيير الشعار</span>
-            </div>
-
-            <!-- اسم المنصة القابل للتعديل -->
-            <div class="title-wrapper">
-                <h1 id="platform-title" contenteditable="true" title="انقر لتعديل اسم المنصة">منصة المدرسة</h1>
-                <small class="edit-hint">✏️ انقر لتعديل الاسم</small>
-            </div>
-        </div>
-
-     <nav>
-    <a href="/school-platform/index.html">الرئيسية</a>
-    <a href="/school-platform/pages/academic-years.html">السنوات الدراسية</a>
-    <a href="/school-platform/pages/semesters.html">الفصول الدراسية</a>
-    <a href="/school-platform/pages/grades.html">الصفوف الدراسية</a>
-    <a href="/school-platform/pages/subjects.html">المواد الدراسية</a>
-    <a href="/school-platform/pages/grade-subjects.html">ربط المواد</a>
-    <a href="/school-platform/pages/teachers.html">المعلمين</a>
-    <a href="/school-platform/pages/students.html">الطلاب</a>
-    <a href="/school-platform/pages/sections.html">الشعب والفصول</a>
-    <a href="/school-platform/pages/guardians.html">أولياء الأمور</a>
-</nav>
-    </header>
-
-    <main>
-        <section class="hero-section">
-            <h2>إدارة التعليم المدرسي بطريقة رقمية متكاملة</h2>
-            <p>منصة لإدارة السنوات الدراسية والفصول والصفوف والشعب والمناهج والطلاب والمعلمين.</p>
-        </section>
-
-        <section class="features-section">
-            <h3>مكونات المنصة</h3>
-            <div class="cards-grid">
-                <div class="card">
-                    <div class="icon">📚</div>
-                    <h4>المناهج والمواد</h4>
-                    <p>إدارة المناهج والوحدات والمواد الدراسية والموارد التعليمية.</p>
-                </div>
-                <div class="card">
-                    <div class="icon">👨‍🏫</div>
-                    <h4>المعلمون</h4>
-                    <p>إدارة بيانات المعلمين والمواد والشعب المسندة إليهم.</p>
-                </div>
-                <div class="card">
-                    <div class="icon">👨‍🎓</div>
-                    <h4>الطلاب</h4>
-                    <p>إدارة الطلاب والشعب والتسجيلات والدرجات والحضور.</p>
-                </div>
-                <div class="card">
-                    <div class="icon">👨‍👩‍👧‍👦</div>
-                    <h4>أولياء الأمور</h4>
-                    <p>متابعة الأبناء والدرجات والحضور والإعلانات.</p>
+    <div class="app-shell">
+        <header class="topbar">
+            <div class="brand-container">
+                <button class="logo-wrapper" type="button" aria-label="تغيير شعار المنصة" onclick="document.getElementById('logo-input').click()">
+                    <img id="platform-logo" src="https://placehold.co/96x96/1d4ed8/ffffff?text=م" alt="شعار المنصة">
+                    <span class="logo-hover-text">تغيير الشعار</span>
+                </button>
+                <input type="file" id="logo-input" accept="image/*" hidden>
+                <div class="title-wrapper">
+                    <span class="eyebrow">الإدارة المدرسية الرقمية</span>
+                    <h1 id="platform-title" contenteditable="true" title="انقر لتعديل اسم المنصة">منصة المدرسة</h1>
                 </div>
             </div>
-        </section>
-    </main>
+            <nav class="main-nav" aria-label="التنقل الرئيسي">
+                <a class="active" href="index.html">الرئيسية</a>
+                <a href="pages/academic-years.html">السنوات الدراسية</a>
+                <a href="pages/semesters.html">الفصول الدراسية</a>
+                <a href="pages/grades.html">الصفوف الدراسية</a>
+                <a href="pages/subjects.html">المواد الدراسية</a>
+                <a href="pages/teachers.html">المعلمون</a>
+                <a href="pages/students.html">الطلاب</a>
+                <a href="pages/guardians.html">أولياء الأمور</a>
+            </nav>
+            <button class="menu-toggle" type="button" aria-label="فتح القائمة">☰</button>
+        </header>
 
-    <footer>
-        <p>© 2026 منصة المدرسة التعليمية</p>
-        <p>إعداد وتطوير أ/ أنيس المقطري</p>
-    </footer>
+        <main class="dashboard-container">
+            <section class="welcome-panel">
+                <div>
+                    <span class="welcome-kicker">الأحد، 27 سبتمبر 2026</span>
+                    <h2>مرحباً بك في لوحة التحكم 👋</h2>
+                    <p>كل ما تحتاجه لإدارة مدرستك ومتابعة رحلة طلابك التعليمية في مكان واحد.</p>
+                    <div class="welcome-actions">
+                        <a class="button button-primary" href="pages/students.html">إدارة الطلاب <span>←</span></a>
+                        <a class="button button-light" href="#quick-access">استكشف المنصة</a>
+                    </div>
+                </div>
+                <div class="welcome-illustration" aria-hidden="true"><span>🎓</span><i>✦</i><b>＋</b></div>
+            </section>
 
-    <!-- ربط السكربتات في الأسفل بالترتيب الصحيح -->
-    <script src="js/config.js"></script>
+            <section class="section-heading">
+                <div><span class="section-label">نظرة عامة</span><h2>ملخص المدرسة</h2></div>
+                <span class="last-update">آخر تحديث: منذ 5 دقائق <span class="status-dot"></span></span>
+            </section>
+            <section class="stats-grid" aria-label="إحصائيات المدرسة">
+                <article class="stat-card"><div class="stat-icon blue">👨‍🎓</div><div><span>إجمالي الطلاب</span><strong>1,248</strong><small class="positive">↗ 8.2% <em>من الشهر الماضي</em></small></div></article>
+                <article class="stat-card"><div class="stat-icon purple">👩‍🏫</div><div><span>المعلمون</span><strong>86</strong><small class="positive">↗ 3.1% <em>من الشهر الماضي</em></small></div></article>
+                <article class="stat-card"><div class="stat-icon orange">📚</div><div><span>المواد الدراسية</span><strong>32</strong><small class="neutral">موزعة على المراحل</small></div></article>
+                <article class="stat-card"><div class="stat-icon green">✅</div><div><span>نسبة الحضور اليوم</span><strong>94.6%</strong><small class="positive">↗ 1.4% <em>عن أمس</em></small></div></article>
+            </section>
+
+            <section class="content-grid">
+                <div class="panel" id="quick-access">
+                    <div class="panel-heading"><div><span class="section-label">الوصول السريع</span><h2>ماذا تريد أن تفعل؟</h2></div><span class="panel-count">8 خدمات</span></div>
+                    <div class="quick-links">
+                        <a href="pages/students.html" class="quick-link"><span class="quick-icon blue">👨‍🎓</span><span><strong>الطلاب</strong><small>إضافة ومتابعة الطلاب</small></span><b>←</b></a>
+                        <a href="pages/teachers.html" class="quick-link"><span class="quick-icon purple">👩‍🏫</span><span><strong>المعلمون</strong><small>إدارة الكادر التعليمي</small></span><b>←</b></a>
+                        <a href="pages/grades.html" class="quick-link"><span class="quick-icon orange">🏫</span><span><strong>الصفوف والشعب</strong><small>تنظيم الفصول الدراسية</small></span><b>←</b></a>
+                        <a href="pages/subjects.html" class="quick-link"><span class="quick-icon green">📖</span><span><strong>المواد الدراسية</strong><small>المناهج والمقررات</small></span><b>←</b></a>
+                    </div>
+                </div>
+                <div class="panel announcements-panel">
+                    <div class="panel-heading"><div><span class="section-label">آخر المستجدات</span><h2>الإعلانات</h2></div><a href="#" class="view-all">عرض الكل</a></div>
+                    <div class="announcement-list">
+                        <article class="announcement"><span class="announcement-icon blue">📢</span><div><strong>بدء التسجيل للفصل الدراسي الجديد</strong><p>التسجيل متاح حتى 5 أكتوبر 2026</p></div><time>منذ ساعتين</time></article>
+                        <article class="announcement"><span class="announcement-icon orange">📅</span><div><strong>اجتماع الهيئة التعليمية</strong><p>غداً الساعة 10:00 صباحاً في قاعة الاجتماعات</p></div><time>أمس</time></article>
+                        <article class="announcement"><span class="announcement-icon green">🎉</span><div><strong>تهانينا للطلاب المتفوقين</strong><p>نبارك لأبنائنا نجاحهم وتميزهم الدراسي</p></div><time>منذ 3 أيام</time></article>
+                    </div>
+                </div>
+            </section>
+
+            <section class="panel schedule-panel">
+                <div class="panel-heading"><div><span class="section-label">اليوم الدراسي</span><h2>الجدول المختصر</h2></div><a href="pages/semesters.html" class="view-all">عرض الجدول الكامل ←</a></div>
+                <div class="schedule-list"><div class="schedule-item current"><span class="schedule-time">08:00<br><small>صباحاً</small></span><span class="schedule-color blue"></span><div><strong>الرياضيات</strong><small>الصف التاسع — شعبة أ</small></div><span class="current-badge">جارٍ الآن</span></div><div class="schedule-item"><span class="schedule-time">09:00<br><small>صباحاً</small></span><span class="schedule-color purple"></span><div><strong>اللغة العربية</strong><small>الصف التاسع — شعبة أ</small></div></div><div class="schedule-item"><span class="schedule-time">10:30<br><small>صباحاً</small></span><span class="schedule-color orange"></span><div><strong>العلوم</strong><small>الصف التاسع — شعبة أ</small></div></div></div>
+            </section>
+        </main>
+        <footer><p>© 2026 منصة المدرسة التعليمية</p><p>نبني مستقبلاً أفضل بالتعليم</p></footer>
+    </div>
     <script src="js/settings.js"></script>
+    <script src="js/home.js"></script>
 </body>
 </html>
