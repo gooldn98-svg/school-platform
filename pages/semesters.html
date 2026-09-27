@@ -14,6 +14,8 @@
             <a href="academic-years.html">السنوات الدراسية</a>
             <a href="grades.html">الصفوف الدراسية</a>
             <a href="subjects.html">المواد الدراسية</a>
+            <a href="grade-subjects.html">ربط المواد</a>
+            <a href="chapters.html">الوحدات الدراسية</a>
         </nav>
     </header>
 
@@ -22,24 +24,16 @@
             <h2>إضافة فصل دراسي جديد</h2>
             <form id="add-semester-form">
                 <div class="form-group">
+                    <label for="semester-name">اسم الفصل (مثال: الفصل الدراسي الأول):</label>
+                    <input type="text" id="semester-name" required placeholder="أدخل اسم الفصل">
+                </div>
+                <div class="form-group">
                     <label for="academic-year-select">السنة الدراسية:</label>
                     <select id="academic-year-select" required>
-                        <option value="">جاري تحميل السنوات...</option>
+                        <option value="">-- جاري التحميل --</option>
                     </select>
                 </div>
-                <div class="form-group">
-                    <label for="semester-name">اسم الفصل الدراسي (مثال: الفصل الأول):</label>
-                    <input type="text" id="semester-name" required placeholder="أدخل اسم الفصل الدراسي">
-                </div>
-                <div class="form-group">
-                    <label for="start-date">تاريخ البداية (اختياري):</label>
-                    <input type="date" id="start-date">
-                </div>
-                <div class="form-group">
-                    <label for="end-date">تاريخ النهاية (اختياري):</label>
-                    <input type="date" id="end-date">
-                </div>
-                <button type="submit">إضافة الفصل الدراسي</button>
+                <button type="submit">إضافة الفصل</button>
             </form>
         </section>
 
@@ -50,16 +44,14 @@
             <table>
                 <thead>
                     <tr>
-                        <th>الفصل الدراسي</th>
+                        <th>اسم الفصل</th>
                         <th>السنة الدراسية</th>
-                        <th>تاريخ البداية</th>
-                        <th>تاريخ النهاية</th>
                         <th>الإجراءات</th>
                     </tr>
                 </thead>
                 <tbody>
                     <tr>
-                        <td colspan="5">جاري التحميل...</td>
+                        <td colspan="3">جاري التحميل...</td>
                     </tr>
                 </tbody>
             </table>
