@@ -1,30 +1,19 @@
-<header>
-    <h1>عنوان الصفحة</h1>
-    <nav>
-        <a href="../index.html">الرئيسية</a>
-        <a href="academic-years.html">السنوات الدراسية</a>
-        <a href="semesters.html">الفصول الدراسية</a>
-        <a href="grades.html">الصفوف الدراسية</a>
-        <a href="subjects.html">المواد الدراسية</a>
-        <a href="grade-subjects.html">ربط المواد</a>
-        <a href="chapters.html">الوحدات الدراسية</a>
-    </nav>
-</header>
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>إدارة الصفوف الدراسية - منصة المدرسة</title>
+    <title>ربط المواد بالصفوف - منصة المدرسة</title>
     <link rel="stylesheet" href="../css/style.css">
 </head>
 <body>
     <header>
-        <h1>إدارة الصفوف الدراسية</h1>
+        <h1>ربط المواد بالصفوف الدراسية</h1>
         <nav>
             <a href="../index.html">الرئيسية</a>
             <a href="academic-years.html">السنوات الدراسية</a>
             <a href="semesters.html">الفصول الدراسية</a>
+            <a href="grades.html">الصفوف الدراسية</a>
             <a href="subjects.html">المواد الدراسية</a>
             <a href="grade-subjects.html">ربط المواد</a>
         </nav>
@@ -32,30 +21,41 @@
 
     <main>
         <section class="form-section">
-            <h2>إضافة صف دراسي جديد</h2>
-            <form id="add-grade-form">
+            <h2>ربط مادة دراسية بصف دراسي</h2>
+            <form id="add-grade-subject-form">
                 <div class="form-group">
-                    <label for="grade-name">اسم الصف (مثال: الأول الثانوي):</label>
-                    <input type="text" id="grade-name" required placeholder="أدخل اسم الصف">
+                    <label for="grade-select">اختر الصف الدراسي:</label>
+                    <select id="grade-select" required>
+                        <option value="">-- جاري تحميل الصفوف --</option>
+                    </select>
                 </div>
-                <button type="submit">إضافة الصف</button>
+
+                <div class="form-group">
+                    <label for="subject-select">اختر المادة الدراسية:</label>
+                    <select id="subject-select" required>
+                        <option value="">-- جاري تحميل المواد --</option>
+                    </select>
+                </div>
+
+                <button type="submit">إتمام الربط</button>
             </form>
         </section>
 
         <hr>
 
         <section class="table-section">
-            <h2>قائمة الصفوف الدراسية</h2>
+            <h2>قائمة المواد المرتبطة بالصفوف</h2>
             <table>
                 <thead>
                     <tr>
-                        <th>اسم الصف</th>
+                        <th>الصف الدراسي</th>
+                        <th>المادة الدراسية</th>
                         <th>الإجراءات</th>
                     </tr>
                 </thead>
                 <tbody>
                     <tr>
-                        <td colspan="2">جاري التحميل...</td>
+                        <td colspan="3">جاري التحميل...</td>
                     </tr>
                 </tbody>
             </table>
@@ -64,6 +64,6 @@
 
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <script src="../js/config.js"></script>
-    <script src="../js/grades.js"></script>
+    <script src="../js/grade-subjects.js"></script>
 </body>
 </html>
