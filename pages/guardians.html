@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>إدارة أولياء الأمور - منصة المدرسة</title>
+    <link rel="stylesheet" href="../css/style.css">
+</head>
+<body>
+    <header>
+        <h1>إدارة أولياء الأمور</h1>
+        <nav>
+            <a href="/school-platform/index.html">الرئيسية</a>
+            <a href="/school-platform/pages/academic-years.html">السنوات الدراسية</a>
+            <a href="/school-platform/pages/semesters.html">الفصول الدراسية</a>
+            <a href="/school-platform/pages/grades.html">الصفوف الدراسية</a>
+            <a href="/school-platform/pages/subjects.html">المواد الدراسية</a>
+            <a href="/school-platform/pages/grade-subjects.html">ربط المواد</a>
+            <a href="/school-platform/pages/teachers.html">المعلمين</a>
+            <a href="/school-platform/pages/students.html">الطلاب</a>
+            <a href="/school-platform/pages/sections.html">الشعب والفصول</a>
+            <a href="/school-platform/pages/guardians.html">أولياء الأمور</a>
+        </nav>
+    </header>
+
+    <main>
+        <section class="form-section">
+            <h2>إضافة ولي أمر جديد</h2>
+            <form id="add-guardian-form">
+                <div class="form-group">
+                    <label for="guardian-name">اسم ولي الأمر:</label>
+                    <input type="text" id="guardian-name" required placeholder="أدخل اسم ولي الأمر الثلاثي">
+                </div>
+                <div class="form-group">
+                    <label for="guardian-phone">رقم الهاتف:</label>
+                    <input type="text" id="guardian-phone" placeholder="أدخل رقم الهاتف للتواصل">
+                </div>
+                <button type="submit">إضافة ولي الأمر</button>
+            </form>
+        </section>
+
+        <hr>
+
+        <section class="table-section">
+            <h2>قائمة أولياء الأمور المسجلين</h2>
+            <table>
+                <thead>
+                    <tr>
+                        <th>اسم ولي الأمر</th>
+                        <th>رقم الهاتف</th>
+                        <th>الإجراءات</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td colspan="3">جاري التحميل...</td>
+                    </tr>
+                </tbody>
+            </table>
+        </section>
+    </main>
+
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="../js/config.js"></script>
+    <script src="../js/guardians.js"></script>
+</body>
+</html>
