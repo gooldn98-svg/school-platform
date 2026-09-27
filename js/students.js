@@ -6,6 +6,11 @@ document.addEventListener('DOMContentLoaded', () => {
     const nameInput = document.getElementById('student-name');
     const gradeSelect = document.getElementById('student-grade');
 
+    // عناصر أزرار الإكسل
+    const downloadTemplateBtn = document.getElementById('download-template-btn');
+    const excelFileInput = document.getElementById('excel-file-input');
+    const exportStudentsBtn = document.getElementById('export-students-btn');
+
     // 1. جلب الصفوف الدراسية لتعبئة القائمة المنسدلة
     async function fetchGradesForSelect() {
         const { data, error } = await supabaseClient
@@ -94,6 +99,86 @@ document.addEventListener('DOMContentLoaded', () => {
                 addForm.reset();
                 fetchStudents();
             }
+        });
+    }
+
+    // 4. تحميل نموذج إكسل فارغ جاهز للتعبئة
+    if (downloadTemplateBtn) {
+        downloadTemplateBtn.addEventListener('click', () => {
+            const templateData = [
+                { "اسم الطالب": "محمد أحمد علي", "معرف الصف": "اكتب اسم أو معرف الصف هنا" }
+            ];
+            const worksheet = XLSX.utils.json_to_sheet(templateData);
+            const workbook = XLSX.utils.book_new();
+            XLSX.utils.book_append_sheet(workbook, worksheet, "الطلاب");
+            XLSX.writeFile(workbook, "students_template.xlsx");
+        });
+    }
+
+    // 5. استيراد الطلاب من ملف إكسل مرفوع
+    if (excelFileInput) {
+        excelFileInput.addEventListener('change', async (e) => {
+            const file = e.target.files[0];
+            if (!file) return;
+
+            const reader = new FileReader();
+            reader.onload = async (event) => {
+                const data = new Uint8Array(event.target.result);
+                const workbook = XLSX.read(data, { type: 'array' });
+                const firstSheetName = workbook.SheetNames[0];
+                const worksheet = workbook.Sheets[firstSheetName];
+                const jsonRows = XLSX.utils.sheet_to_json(worksheet);
+
+                if (jsonRows.length === 0) {
+                    alert('ملف الإكسل فارغ!');
+                    return;
+                }
+
+                // جلب الصفوف المتاحة لمطابقتها إذا لزم الأمر
+                let successCount = 0;
+                for (let row of jsonRows) {
+                    const studentName = row["اسم الطالب"];
+                    if (studentName) {
+                        const { error } = await supabaseClient
+                            .from('students')
+                            .insert([{ name: studentName }]);
+                        
+                        if (!error) successCount++;
+                    }
+                }
+
+                alert(`تم استيراد ${successCount} طالب بنجاح!`);
+                fetchStudents();
+                excelFileInput.value = '';
+            };
+            reader.readAsArrayBuffer(file);
+        });
+    }
+
+    // 6. تصدير قائمة الطلاب الحاليين إلى ملف إكسل
+    if (exportStudentsBtn) {
+        exportStudentsBtn.addEventListener('click', async () => {
+            const { data, error } = await supabaseClient
+                .from('students')
+                .select(`
+                    name,
+                    grades ( name )
+                `);
+
+            if (error || !data || data.length === 0) {
+                alert('لا توجد بيانات طلاب للتصدير!');
+                return;
+            }
+
+            const exportData = data.map(s => ({
+                "اسم الطالب": s.name,
+                "الصف الدراسي": s.grades ? s.grades.name : 'غير محدد'
+            }));
+
+            const worksheet = XLSX.utils.json_to_sheet(exportData);
+            const workbook = XLSX.utils.book_new();
+            XLSX.utils.book_append_sheet(workbook, worksheet, "الطلاب");
+            XLSX.writeFile(workbook, "all_students.xlsx");
         });
     }
 
