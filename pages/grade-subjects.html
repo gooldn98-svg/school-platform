@@ -3,58 +3,47 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ربط المواد بالصفوف الدراسية - منصة المدرسة</title>
+    <title>إدارة الصفوف الدراسية - منصة المدرسة</title>
     <link rel="stylesheet" href="../css/style.css">
 </head>
 <body>
     <header>
-        <h1>ربط المواد بالصفوف الدراسية</h1>
+        <h1>إدارة الصفوف الدراسية</h1>
         <nav>
             <a href="../index.html">الرئيسية</a>
             <a href="academic-years.html">السنوات الدراسية</a>
             <a href="semesters.html">الفصول الدراسية</a>
-            <a href="grades.html">الصفوف الدراسية</a>
             <a href="subjects.html">المواد الدراسية</a>
+            <a href="grade-subjects.html">ربط المواد</a>
         </nav>
     </header>
 
     <main>
         <section class="form-section">
-            <h2>تخصيص مادة لصف دراسي</h2>
-            <form id="add-grade-subject-form">
+            <h2>إضافة صف دراسي جديد</h2>
+            <form id="add-grade-form">
                 <div class="form-group">
-                    <label for="grade-select">اختر الصف الدراسي:</label>
-                    <select id="grade-select" required>
-                        <option value="">-- جاري التحميل --</option>
-                    </select>
+                    <label for="grade-name">اسم الصف (مثال: الأول الثانوي):</label>
+                    <input type="text" id="grade-name" required placeholder="أدخل اسم الصف">
                 </div>
-
-                <div class="form-group">
-                    <label for="subject-select">اختر المادة الدراسية:</label>
-                    <select id="subject-select" required>
-                        <option value="">-- جاري التحميل --</option>
-                    </select>
-                </div>
-
-                <button type="submit">إتمام الربط</button>
+                <button type="submit">إضافة الصف</button>
             </form>
         </section>
 
         <hr>
 
         <section class="table-section">
-            <h2>قائمة مواد الصفوف الدراسية</h2>
+            <h2>قائمة الصفوف الدراسية</h2>
             <table>
                 <thead>
                     <tr>
-                        <th>الصف الدراسي</th>
-                        <th>المادة الدراسية</th>
+                        <th>اسم الصف</th>
                         <th>الإجراءات</th>
                     </tr>
                 </thead>
                 <tbody>
                     <tr>
-                        <td colspan="3">جاري التحميل...</td>
+                        <td colspan="2">جاري التحميل...</td>
                     </tr>
                 </tbody>
             </table>
@@ -63,6 +52,6 @@
 
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <script src="../js/config.js"></script>
-    <script src="../js/grade-subjects.js"></script>
+    <script src="../js/grades.js"></script>
 </body>
 </html>
