@@ -41,6 +41,21 @@
             </form>
         </section>
 
+        <!-- قسم إدارة الملفات (إكسل) -->
+        <section class="excel-section" style="margin: 20px 0; padding: 15px; background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 8px;">
+            <h3>استيراد وتصدير بيانات الطلاب (Excel)</h3>
+            <div style="display: flex; gap: 10px; flex-wrap: wrap; margin-top: 10px;">
+                <button id="download-template-btn" style="background-color: #0d9488; color: white; border: none; padding: 8px 12px; border-radius: 4px; cursor: pointer;">تحميل نموذج الإكسل</button>
+                
+                <label for="excel-file-input" style="background-color: #2563eb; color: white; padding: 8px 12px; border-radius: 4px; cursor: pointer; display: inline-block;">
+                    استيراد الطلاب من إكسل
+                </label>
+                <input type="file" id="excel-file-input" accept=".xlsx, .xls" style="display: none;">
+
+                <button id="export-students-btn" style="background-color: #16a34a; color: white; border: none; padding: 8px 12px; border-radius: 4px; cursor: pointer;">تصدير قائمة الطلاب</button>
+            </div>
+        </section>
+
         <hr>
 
         <section class="table-section">
@@ -62,6 +77,8 @@
         </section>
     </main>
 
+    <!-- مكتبة قراءة وتصدير ملفات الإكسل SheetJS -->
+    <script src="https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <script src="../js/config.js"></script>
     <script src="../js/students.js"></script>
