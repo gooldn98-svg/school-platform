@@ -31,7 +31,7 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     }
 
-    // 2. جلب وعرض الفصول الدراسية في الجدول
+    // 2. جلب وعرض الفصول الدراسية في الجدول (مع تحديد اسم مفتاح الربط بدقة)
     async function fetchSemesters() {
         if (!tableBody) return;
         tableBody.innerHTML = '<tr><td colspan="3">جاري جلب البيانات...</td></tr>';
@@ -41,9 +41,9 @@ document.addEventListener('DOMContentLoaded', () => {
             .select(`
                 id,
                 name,
-                academic_years ( name )
+                academic_years!academic_year_id ( name )
             `)
-            .order('created_at', { ascending: false });
+            .order('name', { ascending: true });
 
         if (error) {
             console.error('Error fetching semesters:', error);
@@ -59,7 +59,15 @@ document.addEventListener('DOMContentLoaded', () => {
         tableBody.innerHTML = '';
         data.forEach(item => {
             const semesterName = item.name;
-            const yearName = item.academic_years && item.academic_years.name ? item.academic_years.name : 'غير محددة';
+            // التحقق من البيانات المسترجعة للعام الدراسي
+            let yearName = 'غير محددة';
+            if (item.academic_years) {
+                if (Array.isArray(item.academic_years)) {
+                    yearName = item.academic_years.length > 0 ? item.academic_years[0].name : 'غير محددة';
+                } else {
+                    yearName = item.academic_years.name || 'غير محددة';
+                }
+            }
 
             const row = document.createElement('tr');
             row.innerHTML = `
